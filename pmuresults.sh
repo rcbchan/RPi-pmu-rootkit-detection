@@ -12,3 +12,4 @@ done > output.txt
 echo "Results saved into output file, displaying output file..."
 sleep 5
 cat output.txt
+
