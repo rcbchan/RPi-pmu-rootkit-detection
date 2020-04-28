@@ -166,10 +166,10 @@ void m_hwmisses() {
 
   // have to create a file descriptor for each core 
   // Raspberry Pi 3B+
-  fd2_1 = perf_event_open(&pe, -1, 0, fd1_1, 0);
-  fd2_2 = perf_event_open(&pe, -1, 1, fd1_2, 0);
-  fd2_3 = perf_event_open(&pe, -1, 2, fd1_3, 0);
-  fd2_4 = perf_event_open(&pe, -1, 3, fd1_4, 0);
+  fd2_1 = perf_event_open(&pe, -1, 0, -1, 0);
+  fd2_2 = perf_event_open(&pe, -1, 1, -1, 0);
+  fd2_3 = perf_event_open(&pe, -1, 2, -1, 0);
+  fd2_4 = perf_event_open(&pe, -1, 3, -1, 0);
 
 
   // Begin testing
@@ -177,6 +177,11 @@ void m_hwmisses() {
   turnon_measuring(fd1_2);
   turnon_measuring(fd1_3);
   turnon_measuring(fd1_4);
+
+  turnon_measuring(fd2_1);
+  turnon_measuring(fd2_2);
+  turnon_measuring(fd2_3);
+  turnon_measuring(fd2_4);
   
   sleep(5);
 
@@ -184,6 +189,11 @@ void m_hwmisses() {
   turnoff_measuring(fd1_2);
   turnoff_measuring(fd1_3);
   turnoff_measuring(fd1_4);
+
+  turnoff_measuring(fd2_1);
+  turnoff_measuring(fd2_2);
+  turnoff_measuring(fd2_3);
+  turnoff_measuring(fd2_4);
   
   read(fd1_1, &val1_1, sizeof(long long));
   read(fd1_2, &val1_2, sizeof(long long));
@@ -201,10 +211,10 @@ void m_hwmisses() {
   printf("\tCPU2: %lld cache misses\n", val1_3);
   printf("\tCPU3: %lld cache misses\n\n", val1_4);
 
-  printf("\tCPU0: %lld branch misses\n", val1_4);
-  printf("\tCPU1: %lld branch misses\n", val1_4);
-  printf("\tCPU2: %lld branch misses\n", val1_4);
-  printf("\tCPU3: %lld branch misses\n", val1_4);
+  printf("\tCPU0: %lld branch misses\n", val2_1);
+  printf("\tCPU1: %lld branch misses\n", val2_2);
+  printf("\tCPU2: %lld branch misses\n", val2_3);
+  printf("\tCPU3: %lld branch misses\n", val2_4);
   
   close(fd1_1);
   close(fd1_2);
@@ -222,7 +232,7 @@ void m_cacherw(){
   long long val1_1, val1_2, val1_3, val1_4;
   int fd1_1, fd1_2, fd1_3, fd1_4;
 
-  /** Cache misses **/
+  /** Cache Read/Writes **/
   memset(&pe, 0, sizeof(struct perf_event_attr));
   pe.type = PERF_TYPE_HW_CACHE;
   pe.size = sizeof(struct perf_event_attr);
@@ -265,10 +275,10 @@ void m_cacherw(){
 
   // have to create a file descriptor for each core 
   // Raspberry Pi 3B+
-  fd2_1 = perf_event_open(&pe, -1, 0, fd1_1, 0);
-  fd2_2 = perf_event_open(&pe, -1, 1, fd1_2, 0);
-  fd2_3 = perf_event_open(&pe, -1, 2, fd1_3, 0);
-  fd2_4 = perf_event_open(&pe, -1, 3, fd1_4, 0);
+  fd2_1 = perf_event_open(&pe, -1, 0, -1, 0);
+  fd2_2 = perf_event_open(&pe, -1, 1, -1, 0);
+  fd2_3 = perf_event_open(&pe, -1, 2, -1, 0);
+  fd2_4 = perf_event_open(&pe, -1, 3, -1, 0);
 
 
   // Begin testing
@@ -276,6 +286,11 @@ void m_cacherw(){
   turnon_measuring(fd1_2);
   turnon_measuring(fd1_3);
   turnon_measuring(fd1_4);
+
+  turnon_measuring(fd2_1);
+  turnon_measuring(fd2_2);
+  turnon_measuring(fd2_3);
+  turnon_measuring(fd2_4);
   
   sleep(5);
 
@@ -283,16 +298,21 @@ void m_cacherw(){
   turnoff_measuring(fd1_2);
   turnoff_measuring(fd1_3);
   turnoff_measuring(fd1_4);
+
+  turnoff_measuring(fd2_1);
+  turnoff_measuring(fd2_2);
+  turnoff_measuring(fd2_3);
+  turnoff_measuring(fd2_4);
   
   read(fd1_1, &val1_1, sizeof(long long));
   read(fd1_2, &val1_2, sizeof(long long));
   read(fd1_3, &val1_3, sizeof(long long));
-  read(fd1_3, &val1_4, sizeof(long long));
+  read(fd1_4, &val1_4, sizeof(long long));
   
-  read(fd2_3, &val2_4, sizeof(long long));
-  read(fd2_3, &val2_4, sizeof(long long));
-  read(fd2_3, &val2_4, sizeof(long long));
-  read(fd2_3, &val2_4, sizeof(long long));
+  read(fd2_1, &val2_1, sizeof(long long));
+  read(fd2_2, &val2_2, sizeof(long long));
+  read(fd2_3, &val2_3, sizeof(long long));
+  read(fd2_4, &val2_4, sizeof(long long));
 
   printf("\nCache Read/Write:\n");
   printf("\tCPU0: %lld cache reads\n", val1_1);
@@ -300,10 +320,10 @@ void m_cacherw(){
   printf("\tCPU2: %lld cache reads\n", val1_3);
   printf("\tCPU3: %lld cache reads\n\n", val1_4);
 
-  printf("\tCPU0: %lld branch writes\n", val1_4);
-  printf("\tCPU1: %lld branch writes\n", val1_4);
-  printf("\tCPU2: %lld branch writes\n", val1_4);
-  printf("\tCPU3: %lld branch writes\n", val1_4);
+  printf("\tCPU0: %lld cache writes\n", val2_1);
+  printf("\tCPU1: %lld cache writes\n", val2_2);
+  printf("\tCPU2: %lld cache writes\n", val2_3);
+  printf("\tCPU3: %lld cache writes\n", val2_4);
   
   close(fd1_1);
   close(fd1_2);
