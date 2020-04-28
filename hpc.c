@@ -34,10 +34,14 @@ static long perf_event_open(struct perf_event_attr *hw_event, pid_t pid,
 
 int main(int argc, char **argv)
 {
+  printf("data collection started...\n");
+
   m_counthwinstruct();
   m_hwmisses();
   m_cacherw();
   m_l1cache_tlb();
+
+  printf("\nData Collection Done.\n");
 }
 
 /* Measuring functions */
@@ -106,10 +110,10 @@ void m_counthwinstruct() {
   read(fd3, &val4, sizeof(long long));
 
   printf("HW Instruction Count:\n");
-  printf("\tCPU0: Used %lld instructions\n", val1);
-  printf("\tCPU1: Used %lld instructions\n", val2);
-  printf("\tCPU2: Used %lld instructions\n", val3);
-  printf("\tCPU3: Used %lld instructions\n", val4);
+  printf("\tCPU0\t%lld\tinstructions\n", val1);
+  printf("\tCPU1\t%lld\tinstructions\n", val2);
+  printf("\tCPU2\t%lld\tinstructions\n", val3);
+  printf("\tCPU3\t%lld\tinstructions\n", val4);
   
   close(fd1);
   close(fd2);
@@ -205,15 +209,15 @@ void m_hwmisses() {
   read(fd2_4, &val2_4, sizeof(long long));
 
   printf("\nHardware misses:\n");
-  printf("\tCPU0: %lld cache misses\n", val1_1);
-  printf("\tCPU1: %lld cache misses\n", val1_2);
-  printf("\tCPU2: %lld cache misses\n", val1_3);
-  printf("\tCPU3: %lld cache misses\n\n", val1_4);
+  printf("\tCPU0\t%lld\tcache misses\n", val1_1);
+  printf("\tCPU1\t%lld\tcache misses\n", val1_2);
+  printf("\tCPU2\t%lld\tcache misses\n", val1_3);
+  printf("\tCPU3\t%lld\tcache misses\n\n", val1_4);
 
-  printf("\tCPU0: %lld branch misses\n", val2_1);
-  printf("\tCPU1: %lld branch misses\n", val2_2);
-  printf("\tCPU2: %lld branch misses\n", val2_3);
-  printf("\tCPU3: %lld branch misses\n", val2_4);
+  printf("\tCPU0\t%lld\tbranch misses\n", val2_1);
+  printf("\tCPU1\t%lld\tbranch misses\n", val2_2);
+  printf("\tCPU2\t%lld\tbranch misses\n", val2_3);
+  printf("\tCPU3\t%lld\tbranch misses\n", val2_4);
   
   close(fd1_1);
   close(fd1_2);
@@ -312,15 +316,15 @@ void m_cacherw(){
   read(fd2_4, &val2_4, sizeof(long long));
 
   printf("\nCache Read/Write:\n");
-  printf("\tCPU0: %lld cache reads\n", val1_1);
-  printf("\tCPU1: %lld cache reads\n", val1_2);
-  printf("\tCPU2: %lld cache reads\n", val1_3);
-  printf("\tCPU3: %lld cache reads\n\n", val1_4);
+  printf("\tCPU0\t%lld\tcache reads\n", val1_1);
+  printf("\tCPU1\t%lld\tcache reads\n", val1_2);
+  printf("\tCPU2\t%lld\tcache reads\n", val1_3);
+  printf("\tCPU3\t%lld\tcache reads\n\n", val1_4);
 
-  printf("\tCPU0: %lld cache writes\n", val2_1);
-  printf("\tCPU1: %lld cache writes\n", val2_2);
-  printf("\tCPU2: %lld cache writes\n", val2_3);
-  printf("\tCPU3: %lld cache writes\n", val2_4);
+  printf("\tCPU0\t%lld\tcache writes\n", val2_1);
+  printf("\tCPU1\t%lld\tcache writes\n", val2_2);
+  printf("\tCPU2\t%lld\tcache writes\n", val2_3);
+  printf("\tCPU3\t%lld\tcache writes\n", val2_4);
   
   close(fd1_1);
   close(fd1_2);
@@ -501,30 +505,30 @@ void m_l1cache_tlb() {
   read(fd5_4, &val5_4, sizeof(long long));
 
   printf("\nLevel 1 cache & TLB:\n");
-  printf("\tCPU0: %lld level 1 data cache\n", val1_1);
-  printf("\tCPU1: %lld level 1 data cache\n", val1_2);
-  printf("\tCPU2: %lld level 1 data cache\n", val1_3);
-  printf("\tCPU3: %lld level 1 data cache\n\n", val1_4);
+  printf("\tCPU0\t%lld level 1 data cache\n", val1_1);
+  printf("\tCPU1\t%lld level 1 data cache\n", val1_2);
+  printf("\tCPU2\t%lld level 1 data cache\n", val1_3);
+  printf("\tCPU3\t%lld level 1 data cache\n\n", val1_4);
 
-  printf("\tCPU0: %lld level 1 instruct cache\n", val2_1);
-  printf("\tCPU1: %lld level 1 instruct cache\n", val2_2);
-  printf("\tCPU2: %lld level 1 instruct cache\n", val2_3);
-  printf("\tCPU3: %lld level 1 instruct cache\n\n", val2_4);
+  printf("\tCPU0\t%lld level 1 instruct cache\n", val2_1);
+  printf("\tCPU1\t%lld level 1 instruct cache\n", val2_2);
+  printf("\tCPU2\t%lld level 1 instruct cache\n", val2_3);
+  printf("\tCPU3\t%lld level 1 instruct cache\n\n", val2_4);
 
-  printf("\tCPU0: %lld last level cache\n", val3_1);
-  printf("\tCPU1: %lld last level cache\n", val3_2);
-  printf("\tCPU2: %lld last level cache\n", val3_3);
-  printf("\tCPU3: %lld last level cache\n\n", val3_4);
+  printf("\tCPU0\t%lld\tlast level cache\n", val3_1);
+  printf("\tCPU1\t%lld\tlast level cache\n", val3_2);
+  printf("\tCPU2\t%lld\tlast level cache\n", val3_3);
+  printf("\tCPU3\t%lld\tlast level cache\n\n", val3_4);
 
-  printf("\tCPU0: %lld data TLB\n", val4_1);
-  printf("\tCPU1: %lld data TLB\n", val4_2);
-  printf("\tCPU2: %lld data TLB\n", val4_3);
-  printf("\tCPU3: %lld data TLB\n\n", val4_4);
+  printf("\tCPU0\t%lld\tdata TLB\n", val4_1);
+  printf("\tCPU1\t%lld\tdata TLB\n", val4_2);
+  printf("\tCPU2\t%lld\tdata TLB\n", val4_3);
+  printf("\tCPU3\t%lld\tdata TLB\n\n", val4_4);
 
-  printf("\tCPU0: %lld instruct TLB\n", val5_1);
-  printf("\tCPU1: %lld instruct TLB\n", val5_2);
-  printf("\tCPU2: %lld instruct TLB\n", val5_3);
-  printf("\tCPU3: %lld instruct TLB\n", val5_4);
+  printf("\tCPU0\t%lld\tinstruct TLB\n", val5_1);
+  printf("\tCPU1\t%lld\tinstruct TLB\n", val5_2);
+  printf("\tCPU2\t%lld\tinstruct TLB\n", val5_3);
+  printf("\tCPU3\t%lld\tinstruct TLB\n", val5_4);
   
   close(fd1_1);
   close(fd1_2);
